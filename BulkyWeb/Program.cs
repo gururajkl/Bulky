@@ -1,4 +1,6 @@
 using Bulky.DataAccess.Data;
+using Bulky.DataAccess.Repository;
+using Bulky.DataAccess.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 
 namespace BulkyWeb
@@ -16,6 +18,7 @@ namespace BulkyWeb
                 builder.Configuration.GetConnectionString("connString")
             ));
             builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             var app = builder.Build();
 
