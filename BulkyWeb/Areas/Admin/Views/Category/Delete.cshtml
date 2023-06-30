@@ -1,13 +1,13 @@
 ﻿@model Category
 @{
-    ViewData["Title"] = "Edit Category";
+    ViewData["Title"] = $"Delete {Model.Name}";
 }
 
 <div class="card shadow border-0 mt-4">
-    <div class="card-header bg-secondary bg-gradient m-lg-0 py-3">
+    <div class="card-header m-lg-0 py-3">
         <div class="row">
             <div class="col-12 text-center">
-                <h2 class="text-white">Edit @Model.Name Category</h2>
+                <h2 class="text-white">Delete @Model.Name Category</h2>
             </div>
         </div>
     </div>
@@ -16,15 +16,13 @@
             <div class="border rounded p-3">
                 <div class="mb-3">
                     <label class="mb-1" asp-for="Name"></label>
-                    <input asp-for="Name" class="form-control" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
+                    <input readonly asp-for="Name" class="form-control" />
                 </div>
                 <div class="mb-3">
                     <label class="mb-1" asp-for="DisplayOrder"></label>
-                    <input asp-for="DisplayOrder" class="form-control" />
-                    <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+                    <input readonly asp-for="DisplayOrder" class="form-control" />
                 </div>
-                <button class="btn btn-outline-primary" style="width:150px">Update</button>
+                <button class="btn btn-warning" style="width:150px">Delete</button>
                 <a asp-controller="Category" asp-action="Index" class="btn btn-outline-secondary" style="width:150px">Cancel</a>
             </div>
         </form>
