@@ -4,6 +4,9 @@ using Bulky.Models;
 
 namespace Bulky.DataAccess.Repository
 {
+    /// <summary>
+    /// Responsible for CRUD of type category.
+    /// </summary>
     public class CategoryRepository : Repository<Category>, ICategoryRepository
     {
         private readonly ApplicationDbContext db;

@@ -5,9 +5,15 @@ using System.Linq.Expressions;
 
 namespace Bulky.DataAccess.Repository
 {
+    /// <summary>
+    /// Implementation of IRepository<T>.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class Repository<T> : IRepository<T> where T : class
     {
         private readonly ApplicationDbContext db;
+
+        // DbSet of any Type Db<Category> -> db.Category.
         internal DbSet<T> dbSet;
 
         public Repository(ApplicationDbContext db)
