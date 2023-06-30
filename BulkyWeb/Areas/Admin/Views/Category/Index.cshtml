@@ -31,7 +31,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var categories in Model)
+                @foreach (var categories in Model.OrderBy(m => m.DisplayOrder))
                 {
                     <tr>
                         <td width="50%">@categories.Name</td>
