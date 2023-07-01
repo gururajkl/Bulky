@@ -3,8 +3,8 @@
     ViewData["Title"] = $"Delete {Model.Name}";
 }
 
-<div class="card shadow border-0 mt-4">
-    <div class="card-header m-lg-0 py-3">
+<div class="card shadow border-dark mt-4">
+    <div class="card-header bg-dark m-lg-0 py-3">
         <div class="row">
             <div class="col-12 text-center">
                 <h2 class="text-white">Delete @Model.Name Category</h2>
@@ -22,8 +22,8 @@
                     <label class="mb-1" asp-for="DisplayOrder"></label>
                     <input readonly asp-for="DisplayOrder" class="form-control" />
                 </div>
-                <button class="btn btn-warning" style="width:150px">Delete</button>
-                <a asp-controller="Category" asp-action="Index" class="btn btn-outline-secondary" style="width:150px">Cancel</a>
+                <button class="btn btn-danger" style="width:150px">Delete</button>
+                <a asp-controller="Category" asp-action="Index" class="btn btn-secondary" style="width:150px">Cancel</a>
             </div>
         </form>
     </div>

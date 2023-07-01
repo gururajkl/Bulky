@@ -12,14 +12,14 @@ namespace Bulky.DataAccess.Repository.IRepository
         /// Gives the entire data.
         /// </summary>
         /// <returns>IEnumerable of any type.</returns>
-        IEnumerable<T> GetAll();
+        IEnumerable<T> GetAll(string? includeProperties = null);
 
         /// <summary>
         /// Gives the specified data.
         /// </summary>
         /// <param name="predicate">Lambda expression for filtering.</param>
         /// <returns></returns>
-        T Get(Expression<Func<T, bool>> predicate);
+        T Get(Expression<Func<T, bool>> predicate, string? includeProperties = null);
 
         /// <summary>
         /// Adds the data to the dbContext.

@@ -10,19 +10,21 @@ namespace BulkyWeb.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IUnitOfWork unitOfWork;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public ProductController(IUnitOfWork unitOfWork)
+        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
             this.unitOfWork = unitOfWork;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Product> products = unitOfWork.Product.GetAll();
+            IEnumerable<Product> products = unitOfWork.Product.GetAll(includeProperties: "Category");
             return View(products);
         }
 
-        public IActionResult Create()
+        public IActionResult Upsert(int? id)
         {
             IEnumerable<SelectListItem> CategoryList = unitOfWork.Category.GetAll().Select(u =>
                 new SelectListItem { Text = u.Name, Value = u.Id.ToString() }
@@ -32,41 +34,66 @@ namespace BulkyWeb.Areas.Admin.Controllers
                 CategoryList = CategoryList,
                 Product = new Product()
             };
-            return View(productViewModel);
+
+            if (id == 0 || id == null)
+            {
+                return View(productViewModel);
+            }
+            else
+            {
+                productViewModel.Product = unitOfWork.Product.Get(p => p.Id == id);
+                return View(productViewModel);
+            }
         }
 
         [HttpPost]
-        public IActionResult Create(ProductViewModel productViewModel)
+        public IActionResult Upsert(ProductViewModel productViewModel, IFormFile file)
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.Product.Add(productViewModel.Product);
+                string wwwRootPath = webHostEnvironment.WebRootPath;
+                if (file != null)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string productPath = Path.Combine(wwwRootPath, @"images\product");
+
+                    if (!string.IsNullOrEmpty(productViewModel.Product.ImageUrl))
+                    {
+                        var oldImagePath = Path.Combine(wwwRootPath, productViewModel.Product.ImageUrl.Trim('\\'));
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
+                    using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    productViewModel.Product.ImageUrl = @"images\product\" + fileName;
+                }
+
+                if (productViewModel.Product.Id == 0)
+                {
+                    unitOfWork.Product.Add(productViewModel.Product);
+                    TempData["success"] = "Product created successfully";
+                }
+                else
+                {
+                    unitOfWork.Product.Update(productViewModel.Product);
+                    TempData["success"] = "Product updated successfully";
+                }
+
                 unitOfWork.Save();
                 return RedirectToAction("Index");
             }
-            return View();
-        }
-
-        public IActionResult Edit(int? id)
-        {
-            if (id == null) return NotFound();
-            var productFromDb = unitOfWork.Product.Get(u => u.Id == id);
-            if (productFromDb == null) return NotFound();
-            return View(productFromDb);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(Product product)
-        {
-            if (ModelState.IsValid)
+            else
             {
-                unitOfWork.Product.Update(product);
-                unitOfWork.Save();
-                TempData["success"] = $"Product {product.Title} updated successfully";
-                return RedirectToAction("Index");
+                productViewModel.CategoryList = unitOfWork.Category.GetAll().Select(u =>
+                    new SelectListItem() { Text = u.Name, Value = u.Id.ToString() }
+                );
+                return View(productViewModel);
             }
-            return View(product);
         }
 
         public IActionResult Delete(int? id)
