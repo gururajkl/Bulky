@@ -1,6 +1,9 @@
 ﻿@model ProductViewModel
 @{
-    ViewData["Title"] = "Create Product";
+    string create = "Create";
+    string update = "Update";
+    string result = Model.Product.Id == 0 ? create : update;
+    ViewData["Title"] = result + " Product";
 }
 
 <div class="card shadow border-dark mt-4">
@@ -76,9 +79,12 @@
                     <a asp-controller="Product" asp-action="Index" class="btn btn-secondary" style="width:150px">Cancel</a>
                 </div>
             </div>
-            <div class="col-2">
-                <img src="~/@Model.Product.ImageUrl" style="width: 100%; height:auto; border-radius:5px; border: 1px solid #bbb9b9" />
-            </div>
+            @if (result == "Update")
+            {
+                <div class="col-2">
+                    <img src="~/@Model.Product.ImageUrl" style="width: 100%; height:auto; border-radius:5px; border: 1px solid #bbb9b9" />
+                </div>
+            }
         </form>
     </div>
 </div>
