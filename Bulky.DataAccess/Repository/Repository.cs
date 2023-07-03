@@ -44,7 +44,7 @@ namespace Bulky.DataAccess.Repository
         public IEnumerable<T> GetAll(string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
-            if(!string.IsNullOrEmpty(includeProperties))
+            if (!string.IsNullOrEmpty(includeProperties))
             {
                 foreach (var includeProps in includeProperties.Split(',', StringSplitOptions.RemoveEmptyEntries))
                 {

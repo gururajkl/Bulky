@@ -1,7 +1,9 @@
 using Bulky.DataAccess.Data;
 using Bulky.DataAccess.Repository;
 using Bulky.DataAccess.Repository.IRepository;
+using Bulky.Utility;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace BulkyWeb
@@ -19,9 +21,8 @@ namespace BulkyWeb
                 builder.Configuration.GetConnectionString("connString")
             ));
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+            // Add support for razor pages
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -39,9 +40,12 @@ namespace BulkyWeb
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseAuthentication(); ;
+            app.UseAuthentication();
 
             app.UseAuthorization();
+
+            // Add support for razor pages
+            app.MapRazorPages();
 
             app.MapControllerRoute(
                 name: "default",

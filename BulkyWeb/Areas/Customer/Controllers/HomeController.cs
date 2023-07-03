@@ -23,7 +23,7 @@ namespace BulkyWeb.Areas.Customer.Controllers
 
         public IActionResult Details(int? id)
         {
-            if(id != null)
+            if (id != null)
             {
                 Product product = unitOfWork.Product.Get(p => p.Id == id, includeProperties: "Category");
                 return View(product);

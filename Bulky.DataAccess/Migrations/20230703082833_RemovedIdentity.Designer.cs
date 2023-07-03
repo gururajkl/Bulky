@@ -4,6 +4,7 @@ using Bulky.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bulky.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230703082833_RemovedIdentity")]
+    partial class RemovedIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,21 +51,21 @@ namespace Bulky.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDateTime = new DateTime(2023, 7, 3, 14, 0, 47, 747, DateTimeKind.Local).AddTicks(9103),
+                            CreatedDateTime = new DateTime(2023, 7, 3, 13, 58, 33, 689, DateTimeKind.Local).AddTicks(3482),
                             DisplayOrder = 1,
                             Name = "Action"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDateTime = new DateTime(2023, 7, 3, 14, 0, 47, 747, DateTimeKind.Local).AddTicks(9121),
+                            CreatedDateTime = new DateTime(2023, 7, 3, 13, 58, 33, 689, DateTimeKind.Local).AddTicks(3496),
                             DisplayOrder = 2,
                             Name = "Horror"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedDateTime = new DateTime(2023, 7, 3, 14, 0, 47, 747, DateTimeKind.Local).AddTicks(9123),
+                            CreatedDateTime = new DateTime(2023, 7, 3, 13, 58, 33, 689, DateTimeKind.Local).AddTicks(3496),
                             DisplayOrder = 3,
                             Name = "SciFi"
                         });
